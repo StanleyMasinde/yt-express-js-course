@@ -12,21 +12,24 @@ const users = [
         email: "jane@example.com"
     }
 ]
-router.get('/', (req, res) => {
-    res.json(users);
-})
-
-router.get('/:id', (req, res) => {
-    const userId = req.params.id
-    const user = users.find(user => {
-        return user.id == userId
+router
+    .get('/', (req, res) => {
+        res.json(users);
     })
+    .get('/:id', (req, res) => {
+        const userId = req.params.id
+        const user = users.find(user => {
+            return user.id == userId
+        })
 
-    if(user) {
-        return res.json(user)
-    }
+        if (user) {
+            return res.json(user)
+        }
 
-    return res.status(404).json('User not found')
-})
+        return res.status(404).json('User not found')
+    })
+    .post('/', (req, res) => {
+        res.json('User created!!')
+    })
 
 module.exports = router
