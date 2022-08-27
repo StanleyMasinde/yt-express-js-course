@@ -1,37 +1,31 @@
 const router = require('express').Router()
-
-const posts = [
-    {
-        id: 1,
-        title: "Post number 1",
-        body: "This is a body for post 1"
-    },
-    {
-        id: 2,
-        title: "Post number 2",
-        body: "This is a body for post 2"
-    },
-    {
-        id: 3,
-        title: "Post number 3",
-        body: "This is a body for post 3"
-    }
-]
+const db = require('../database')
 
 router
     // Get all the posts
-    .get('/', (req, res) => {
-        res.render('index', { posts })
+    .get('/', (req, res, next) => {
+        db.query('SELECT * FROM POSTS', (err, results) => {
+            if (err) {
+                return next(err)
+            }
+
+            res.render('index', { posts: results })
+        })
     })
     // Get post by Id
-    .get('/:id', (req, res) => {
-        const post = posts.find(post => post.id == req.params.id)
+    .get('/:id', (req, res, next) => {
+        db.query(`SELECT * FROM posts WHERE id = ${req.params.id}`, (err, results) => {
+            if (err) {
+                return next(err)
+            }
+            const post = results[0]
 
-        if (post) {
-            return res.render('show', { post })
-        }
+            if (post) {
+                return res.render('show', { post })
+            }
 
-        return res.render('not-found', {message: `We could not find a post with id ${req.params.id}`})
+            return res.render('not-found', { message: `We could not find a post with id ${req.params.id}` })
+        })
     })
 
 module.exports = router
