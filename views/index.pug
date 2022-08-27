@@ -1,15 +1,16 @@
 doctype html
 html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(http-equiv="X-UA-Compatible", content="IE=edge")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Document
-    body 
-      h1=title 
-      p Please remember to subscribe
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Document
+  body 
+    h1=title 
+    p Please remember to subscribe
+    a(href="/posts/create") Add new post 
 
-      each post in posts 
-        h1=post.title
-        p=post.body
-        a(href="/posts/" + post.id) View post
+    each post in posts 
+      h1=post.title
+      p=post.body
+      a(href="/posts/" + post.id) View post
